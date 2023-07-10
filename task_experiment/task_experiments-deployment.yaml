@@ -1,0 +1,41 @@
+###
+### A complete description of a Prefect Deployment for flow 'task-experiments'
+###
+name: task_experiment
+description: Just to experiment task
+version: 82994880ab49db1a71950dd063e4cf18
+# The work queue that will handle this deployment's runs
+work_queue_name: test
+work_pool_name: null
+tags: []
+parameters: {}
+schedule: null
+is_schedule_active: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: task-experiments
+manifest_path: null
+storage: null
+path: C:\personal\Repositories\prefect
+entrypoint: task_experiment\task_experiments.py:task_experiments
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties: {}
+  required: null
+  definitions: null
+timestamp: '2023-07-09T22:40:07.330963+00:00'
+triggers: []

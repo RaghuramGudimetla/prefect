@@ -1,4 +1,5 @@
-##
+# Pre steps
+Store all the environment variables in the virtual environment /Scripts/activate
 
 1. Flow context is also defined here as a function. So, flows are literally functions now
 
@@ -27,4 +28,14 @@ If we are going to run any costly tasks, better to use caching. Caching is good.
 ### Deployment
 Each deployment is associated with a single flow, but any given flow can be referenced by multiple deployments.
 
-prefect deployment build -n flow_experiment -q test flow_exp/flow_experiment.py:always_succeeds_flow -
+#### Using CLI
+prefect deployment build -n task_experiment -q test task_experiment/task_experiments.py:task_experiments
+
+#### Creating storage blocks
+We can create blocks that stored the flow code in S3
+
+#### GCP deployment
+https://medium.com/@danilo.drobac/7-a-complete-google-cloud-deployment-of-prefect-2-0-32b8e3c2febe
+#### AWS deployment
+https://towardsdatascience.com/prefect-aws-ecs-fargate-github-actions-make-serverless-dataflows-as-easy-as-py-f6025335effc
+https://github.com/anna-geller/dataflow-ops/tree/main
