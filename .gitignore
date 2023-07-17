@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 **/prefect-env/
+.local_variables.sh
+.sample.sh

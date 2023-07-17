@@ -39,3 +39,5 @@ https://medium.com/@danilo.drobac/7-a-complete-google-cloud-deployment-of-prefec
 #### AWS deployment
 https://towardsdatascience.com/prefect-aws-ecs-fargate-github-actions-make-serverless-dataflows-as-easy-as-py-f6025335effc
 https://github.com/anna-geller/dataflow-ops/tree/main
+https://www.youtube.com/watch?v=q-sl6bzi5fw
+https://github.com/PrefectHQ/prefect-recipes/blob/main/devops/infrastructure-as-code/aws/tf-prefect2-ecs-agent/main.tf

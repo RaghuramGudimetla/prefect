@@ -4,7 +4,6 @@ import requests
 import json
 import pytz
 import boto3
-from prefect.deployments import Deployment
 # logger = get_run_logger()
 
 def read_response_json_data(url: str) -> dict:

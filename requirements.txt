@@ -3,3 +3,4 @@ s3fs
 requests
 pytz
 boto3
+prefect-aws
