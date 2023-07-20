@@ -41,3 +41,16 @@ https://towardsdatascience.com/prefect-aws-ecs-fargate-github-actions-make-serve
 https://github.com/anna-geller/dataflow-ops/tree/main
 https://www.youtube.com/watch?v=q-sl6bzi5fw
 https://github.com/PrefectHQ/prefect-recipes/blob/main/devops/infrastructure-as-code/aws/tf-prefect2-ecs-agent/main.tf
+
+
+### Notes to make for success run
+
+1. Make sure we have a work pool created (Keep the queue name as default)
+2. Start the agent (Make sure we install prefect-aws from the environment we are running it)
+3. Deploy 
+    1. AWS Credentials
+    2. Storage Block
+    3. Infrastructure block (ESCTask)
+4. Deploy the flow
+5. Make sure the work pool is fine.
+6. Run the flow from prefect cloud.

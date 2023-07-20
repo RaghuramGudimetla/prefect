@@ -1,5 +1,5 @@
 from prefect.deployments import Deployment
-from flow import export_nz_exhange
+from flow import sample_task
 from prefect_aws.ecs import ECSTask
 import os, sys
 
@@ -9,10 +9,10 @@ from blocks.flowconfigs import flow_bucket_path
 ecs_task_block = ECSTask.load("prefect-agent")
 
 #storage = S3.load("flowconfigs") # load a pre-defined block
-flow_name = "currency-exchange"
+flow_name = "sample-flow"
 
 deployment = Deployment.build_from_flow(
-    flow=export_nz_exhange,
+    flow=sample_task,
     name=f'deploy-{flow_name}',
     version=1,
     work_queue_name='default',
