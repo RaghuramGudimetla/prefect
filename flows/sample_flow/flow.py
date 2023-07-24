@@ -15,4 +15,4 @@ def sample_flow():
     sample_task(return_state=True)
 
 if __name__ == "__main__":
-    sample_task()
+    sample_flow()

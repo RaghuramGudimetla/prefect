@@ -4,3 +4,4 @@ requests
 pytz
 boto3
 prefect-aws
+prefect-docker>=0.3.1
