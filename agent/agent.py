@@ -9,10 +9,12 @@ prefect_agent = ECSTask(
     cpu=512,
     memory=1024,
     image=os.environ['ecr_image'],
+    type='ecs-task',
     cluster=os.environ['cluster'],
     execution_role_arn=os.environ['execution_role_arn'],
     task_role_arn=os.environ['task_role_arn'],
     configure_cloudwatch_logs=True,
     task_start_timeout_seconds=600,
+    command=["python", "flow.py"]
 )
 prefect_agent.save('prefect-agent', overwrite=True)

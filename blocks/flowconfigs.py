@@ -1,4 +1,6 @@
 from prefect.filesystems import S3
+from prefect_aws import S3Bucket
+from prefect_aws import AwsCredentials
 import os
 
 """

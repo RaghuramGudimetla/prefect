@@ -39,11 +39,11 @@ def deploy_flow(flow_name: str):
         storage=storage_block,
         infrastructure=ecs_task_block,
         ignore_file='.prefectignore',
-        path="s3://ap-southeast-2-886192468297-prefect/flowconfigs/sample-flow/",
+        path="/",
         infra_overrides={
                 "env.EXTRA_PIP_PACKAGES": "prefect-aws s3fs awswrangler",
                 "env.PREFECT_LOGGING_LEVEL": "DEBUG"
-        }
+            }
     )
     deployment.apply()
 

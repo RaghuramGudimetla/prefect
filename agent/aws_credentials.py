@@ -6,4 +6,4 @@ AwsCredentials(
     aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
     aws_session_token=None,
     region_name="ap-southeast-2"
-).save("aws-creds")
+).save("aws-creds", overwrite=True)
