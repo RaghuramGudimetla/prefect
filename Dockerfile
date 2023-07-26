@@ -1,7 +1,7 @@
-FROM prefecthq/prefect:2-python3.11
-RUN pip install s3fs prefect-aws awswrangler
+FROM --platform=linux/amd64 prefecthq/prefect:2-python3.10
+ARG flow_name
+
+RUN pip install prefect s3fs awswrangler prefect-aws prefect-docker boto3 requests
 
 WORKDIR /usr/app/src
-COPY flows/currency_exchange/ /usr/app/src/
-
-CMD [ "python", "/usr/app/src/currency_exchange/flow.py" ]
+COPY flows/${flow_name}/ /opt/prefect/flows/

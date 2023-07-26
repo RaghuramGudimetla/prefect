@@ -1,56 +1,57 @@
-# Pre steps
-Store all the environment variables in the virtual environment /Scripts/activate
+# Prefect Overview
 
-1. Flow context is also defined here as a function. So, flows are literally functions now
-
-### Cloud login
-Can login using the API key
-prefect cloud login -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
--- Authenticated with Prefect Cloud! Using workspace 'raghuramgudimetlatrademeconz/gettingused'. --
-
-### Events
-Cloud events can be used for observability. Like an event when we query database, or push to a bucket.
-
-### Flow context
-Good to use flow-run-name with something like -- @flow(flow_run_name="{name}-on-{date:%A}")
-Separate all the logic into tasks. Never write any logic in the flow function.
-Not good to call tasks inside task.
-Return multiple states. Always good to return states of each tasks. To make sure how many of them are failed.
-Anything else returned is considered as a success.
-
-### Tasks
-Main use is that we can make these tasks dependent.
-Each task should ideally represent a single logic.
-Not a good practice to call a task from another task. But, you can still do it using task_1.fn().
-Good to write a description to task.
-If we are going to run any costly tasks, better to use caching. Caching is good. But, make sure if we are passing the same parameter values, it always uses cached results.
-
-### Deployment
-Each deployment is associated with a single flow, but any given flow can be referenced by multiple deployments.
-
-#### Using CLI
-prefect deployment build -n task_experiment -q test task_experiment/task_experiments.py:task_experiments
-
-#### Creating storage blocks
-We can create blocks that stored the flow code in S3
-
-#### GCP deployment
-https://medium.com/@danilo.drobac/7-a-complete-google-cloud-deployment-of-prefect-2-0-32b8e3c2febe
-#### AWS deployment
-https://towardsdatascience.com/prefect-aws-ecs-fargate-github-actions-make-serverless-dataflows-as-easy-as-py-f6025335effc
-https://github.com/anna-geller/dataflow-ops/tree/main
-https://www.youtube.com/watch?v=q-sl6bzi5fw
-https://github.com/PrefectHQ/prefect-recipes/blob/main/devops/infrastructure-as-code/aws/tf-prefect2-ecs-agent/main.tf
+ Prefect Version - 2.10.0
+ Base Image - prefecthq/prefect:2-python3.10
+ AWS Services Required:
+    1. EC2 - To run the prefect agent (Or run locally)
+    2. ECR - To store each flow code as image
+    3. ECS - To execute flow runs
+Make sure we configure below environment variables
+    1. export ecr_image=""
+    2. export cluster=""
+    3. export execution_role_arn=""
+    4. export task_role_arn=""
+    5. export work_queue_name=""
+    6. export PREFECT_AWS_ACCESS_KEY_ID=""
+    7. export PREFECT_AWS_SECRET_ACCESS_KEY=""
 
 
-### Notes to make for success run
+# AWS Credentials
+We need have a user that has access to push the code as image to ECR
 
-1. Make sure we have a work pool created (Keep the queue name as default)
-2. Start the agent (Make sure we install prefect-aws from the environment we are running it)
-3. Deploy 
-    1. AWS Credentials
-    2. Storage Block
-    3. Infrastructure block (ESCTask)
-4. Deploy the flow
-5. Make sure the work pool is fine.
-6. Run the flow from prefect cloud.
+# Infrastructure
+We need infrastructure for each flow for its runs. We store it in an image.
+
+# Agent Pool
+Make sure the agent pool is created. I actually did it from UI. But can do it from python or command line.
+    -- prefect work-pool create --type prefect-agent agent-pool
+
+# Agent
+Agent is a server that sends a flow run execution to ECS cluster with provided infrastructure
+    -- prefect agent start -p 'agent-pool'
+
+# Flow Deployment
+Deploys the flow code and creates a block (Infra) that defines the flow run.
+
+
+# Deployment steps
+1. Make sure the AWS credentials are registered (This should have access to upload).
+2. Make sure agent pool is already registered.
+3. Start the Agent - (Either on EC2 or your local machine).
+4. Build the image with the code and push the image to ECR.
+    -- ./deploy_image.sh demo-flow $PREFECT_AWS_ACCESS_KEY_ID $PREFECT_AWS_SECRET_ACCESS_KEY
+5. Above step will build a image locally and push it to ECR.
+6. run deploy file in the respective flow to deploy the flow.
+    python deploy.py
+
+
+# AWS roles importance
+## Execution role
+This role is the for creating ECS tasks. This needs access like running tasks, creating task logs.
+
+## Task role
+This role is what we need access in our flow code. 
+For instance, if we want to upload files to a bucket, read secrets, read SQS queue from flow. Then the task role must have access to do this.
+
+# Notes
+Make sure prefect-aws is installed on the machine where we run Agent

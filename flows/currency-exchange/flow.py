@@ -45,8 +45,6 @@ def export_exhange_rates():
         log_prints=True
     )
 def export_nz_exhange():
-
-    # Calling the task
     export_exhange_rates(return_state=True)
 
 if __name__ == "__main__":

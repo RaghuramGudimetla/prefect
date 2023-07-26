@@ -1,7 +1,7 @@
 prefect
 s3fs
-requests
-pytz
-boto3
+awswrangler
 prefect-aws
-prefect-docker>=0.3.1
+prefect-docker
+boto3
+requests

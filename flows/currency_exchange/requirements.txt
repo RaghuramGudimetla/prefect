@@ -1,5 +1,0 @@
-prefect
-s3fs
-requests
-pytz
-boto3

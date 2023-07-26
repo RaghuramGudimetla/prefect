@@ -1,0 +1,6 @@
+prefect
+s3fs
+awswrangler
+prefect-aws
+boto3
+requests
