@@ -5,3 +5,4 @@ prefect-aws
 prefect-docker
 boto3
 requests
+prefect-gcp

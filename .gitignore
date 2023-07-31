@@ -160,5 +160,8 @@ cython_debug/
 #.idea/
 
 **/prefect-env/
+**/prefect-google-cloud/
+
 .local_variables.sh
 .sample.sh
+**/prefect-sa.json

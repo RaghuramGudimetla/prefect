@@ -1,4 +1,4 @@
-### Prefect Overview
+# Prefect Overview
 
  Prefect Version - 2.10.0
 
@@ -10,6 +10,12 @@
     2. ECR - To store each flow code as image.
     3. ECS - To execute flow runs.
 
+GCP Requirements:
+
+    1. We need a bucket
+    2. A service account that is used by prefect flow runs
+    3. A artifact registry to store flow code and depenedencies as infrastructure
+
 Make sure we configure below environment variables
     1. export ecr_image=""
     2. export cluster=""
@@ -18,7 +24,11 @@ Make sure we configure below environment variables
     5. export work_queue_name=""
     6. export PREFECT_AWS_ACCESS_KEY_ID=""
     7. export PREFECT_AWS_SECRET_ACCESS_KEY=""
+    8. export GCP_ARTIFACT_REPO=""
+    9. export GCP_REGION=""
 
+
+# Deployment with AWS ECS
 
 ### AWS Credentials
 We need have a user that has access to push the code as image to ECR
@@ -60,3 +70,33 @@ For instance, if we want to upload files to a bucket, read secrets, read SQS que
 
 ### Notes
 Make sure prefect-aws is installed on the machine where we run Agent
+
+
+# Deployment with GCP Cloud Run
+
+### GCP Credentials
+This is actually a service accout details. We read and create this block for a service-account.json file.
+
+### Infrastructure
+We need infrastructure for each flow for its runs. We store it in an image in GCP Artifacts repository (Similar to ECR).
+
+### Agent Pool
+Make sure the agent pool is created. I actually did it from UI. But can do it from python or command line.
+    -- prefect work-pool create --type prefect-agent agent-pool
+
+### Agent
+Agent is a server that sends a flow run execution to GCP Cloud run with provided infrastructure (Docker image)
+    -- prefect agent start -p 'agent-pool'
+
+### Flow Deployment
+Deploys the flow code and creates a block (Infra) that defines the flow run.
+
+### Deployment steps
+1. Make sure the GCP credentials are registered.
+2. Make sure agent pool is already registered.
+3. Start the Agent - (Either on EC2 or your local machine).
+4. Login to google cloud in your local environment. Or environment where you have access to push to artifact registry.
+5. Build the image with the code and push the image to Artifacts repository.
+    -- ./deploy_gcp_image.sh "demo-flow-gcp"
+6. run deploy file in the respective flow to deploy the flow.
+    python deploy.py
